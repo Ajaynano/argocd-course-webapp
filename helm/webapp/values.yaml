@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: Ajaynano/argocd-course-webapp
+  repository: ajzodak/argocd-course-webapp
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "9dbc07045cd3502b9863803b21356cd5ec2a93eb"
+  tag: 6c1723e3515015aa667129f9420fc9576dc8d572
 
 imagePullSecrets: []
 nameOverride: ""
