@@ -17,6 +17,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-test
     steps:
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
       -
         name: Checkout
         uses: actions/checkout@v2
@@ -39,14 +44,13 @@ jobs:
           context: .
           file: WebApplication1/Dockerfile
           push: true
-          tags: ajaynano/argocd-course-webapp:${{ github.sha }}
+          tags: ${{ OWNER_LC }}/argocd-course-webapp:${{ github.sha }}
   promote-to-dev-environment:
     runs-on: ubuntu-latest
     needs: docker-build-push
     steps:
       - run: |
           echo "promoting into dev environment!"
-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
           git config --global user.email ci-bot@argocd.com && git config --global user.name ci-bot
           echo "cloning config repo $CONFIG_REPO_NAME"
           git clone https://oauth2:${{ secrets.GH_PAT }}@github.com/${{ OWNER_LC }}/$CONFIG_REPO_NAME.git
